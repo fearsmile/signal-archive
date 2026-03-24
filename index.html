@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signal Archive</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #050505;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .site-title {
+      padding: 28px 40px 10px 40px;
+      font-size: 16px;
+      letter-spacing: 3px;
+      opacity: 0.85;
+    }
+
+    .site-sub {
+      padding: 0 40px 10px 40px;
+      font-size: 12px;
+      opacity: 0.45;
+      letter-spacing: 1px;
+    }
+
+    .section-title {
+      padding: 30px 40px 8px 40px;
+      font-size: 12px;
+      opacity: 0.6;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 30px;
+      padding: 10px 40px 40px 40px;
+    }
+
+    .mash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 34px;
+      padding: 10px 40px 50px 40px;
+    }
+
+    .item {
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      opacity: 0.96;
+    }
+
+    .item:hover {
+      transform: scale(1.03);
+      opacity: 1;
+    }
+
+    .item img {
+      width: 100%;
+      display: block;
+      border-radius: 6px;
+      background: #111;
+      box-shadow: 0 0 20px rgba(255,255,255,0.03);
+    }
+
+    .caption {
+      font-size: 11px;
+      opacity: 0.5;
+      padding-top: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .viewer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.96);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 999;
+    }
+
+    .viewer img {
+      max-width: 90%;
+      max-height: 82%;
+      border-radius: 6px;
+    }
+
+    .viewer-caption {
+      margin-top: 16px;
+      font-size: 12px;
+      opacity: 0.65;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 24px;
+      cursor: pointer;
+      opacity: 0.6;
+    }
+
+    .close:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="site-title">SIGNAL ARCHIVE</div>
+  <div class="site-sub">components, faces, mashes</div>
+
+  <div class="section-title">Components</div>
+  <div class="grid">
+
+    <div class="item" onclick="openViewer('assets/bg.png', 'Background')">
+      <img src="assets/bg.png" alt="Background">
+      <div class="caption">Background</div>
+    </div>
+
+    <div class="item" onclick="openViewer('assets/radar.png', 'Radar')">
+      <img src="assets/radar.png" alt="Radar">
+      <div class="caption">Radar</div>
+    </div>
+
+    <div class="item" onclick="openViewer('assets/sofa.png', 'Sofa Scene')">
+      <img src="assets/sofa.png" alt="Sofa Scene">
+      <div class="caption">Sofa scene</div>
+    </div>
+
+    <div class="item" onclick="openViewer('assets/small.png', 'Small Figure')">
+      <img src="assets/small.png" alt="Small Figure">
+      <div class="caption">Small figure</div>
+    </div>
+
+    <div class="item" onclick="openViewer('assets/table.png', 'Table / Board')">
+      <img src="assets/table.png" alt="Table / Board">
+      <div class="caption">Table / board</div>
+    </div>
+
+    <div class="item" onclick="openViewer('assets/tv.png', 'TV')">
+      <img src="assets/tv.png" alt="TV">
+      <div class="caption">TV</div>
+    </div>
+
+  </div>
+
+  <div class="section-title">Faces / Signals</div>
+  <div class="grid">
+
+    <div class="item" onclick="openViewer('assets/face_wink.png', 'Face Wink')">
+      <img src="assets/face_wink.png" alt="Face Wink">
+      <div class="caption">Face wink</div>
+    </div>
+
+    <div class="item" onclick="openViewer('assets/face_nosferatu.png', 'Face Nosferatu')">
+      <img src="assets/face_nosferatu.png" alt="Face Nosferatu">
+      <div class="caption">Face nosferatu</div>
+    </div>
+
+  </div>
+
+  <div class="section-title">Mashes</div>
+  <div class="mash-grid">
+
+    <div class="item" onclick="openViewer('assets/mash1.png.gif', 'Mash 01')">
+      <img src="assets/mash1.png.gif" alt="Mash 01">
+      <div class="caption">Mash 01</div>
+    </div>
+
+    <div class="item" onclick="openViewer('assets/mashi2.gif', 'Mash 02')">
+      <img src="assets/mashi2.gif" alt="Mash 02">
+      <div class="caption">Mash 02</div>
+    </div>
+
+    <div class="item" onclick="openViewer('assets/mashi3.gif', 'Mash 03')">
+      <img src="assets/mashi3.gif" alt="Mash 03">
+      <div class="caption">Mash 03</div>
+    </div>
+
+  </div>
+
+  <div class="viewer" id="viewer" onclick="closeViewer()">
+    <div class="close">✕</div>
+    <img id="viewerImg" alt="">
+    <div class="viewer-caption" id="viewerCaption"></div>
+  </div>
+
+  <script>
+    function openViewer(src, caption) {
+      document.getElementById('viewer').style.display = 'flex';
+      document.getElementById('viewerImg').src = src;
+      document.getElementById('viewerCaption').textContent = caption;
+    }
+
+    function closeViewer() {
+      document.getElementById('viewer').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
